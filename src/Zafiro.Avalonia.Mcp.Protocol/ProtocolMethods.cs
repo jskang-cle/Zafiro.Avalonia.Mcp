@@ -2,6 +2,10 @@ namespace Zafiro.Avalonia.Mcp.Protocol;
 
 public static class ProtocolMethods
 {
+    // App-defined tools
+    public const string ListAppTools = "list_app_tools";
+    public const string CallAppTool = "call_app_tool";
+
     // Tree inspection
     public const string GetTree = "get_tree";
     public const string Search = "search";

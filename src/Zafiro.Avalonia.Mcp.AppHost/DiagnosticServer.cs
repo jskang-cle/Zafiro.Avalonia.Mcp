@@ -8,14 +8,18 @@ namespace Zafiro.Avalonia.Mcp.AppHost;
 public sealed class DiagnosticServer : IDisposable
 {
     private readonly CancellationTokenSource _cts = new();
-    private readonly RequestDispatcher _dispatcher = new();
+    private readonly RequestDispatcher _dispatcher;
     private readonly IDiagnosticTransport _transport;
 
     public DiagnosticServer() : this(new NamedPipeTransport(DiscoveryWriter.PipeName)) { }
 
-    public DiagnosticServer(IDiagnosticTransport transport)
+    public DiagnosticServer(IDiagnosticTransport transport) : this(transport, []) { }
+
+    /// <param name="appTools">The app's own tools, offered through <c>list_app_tools</c> and <c>call_app_tool</c>.</param>
+    public DiagnosticServer(IDiagnosticTransport transport, IEnumerable<AppTools.IAppTool> appTools)
     {
         _transport = transport;
+        _dispatcher = new RequestDispatcher(appTools);
     }
 
     public IDiagnosticTransport Transport => _transport;

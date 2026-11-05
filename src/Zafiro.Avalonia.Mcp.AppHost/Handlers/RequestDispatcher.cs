@@ -9,8 +9,15 @@ public sealed class RequestDispatcher
 {
     private readonly Dictionary<string, IRequestHandler> _handlers = new();
 
-    public RequestDispatcher()
+    public RequestDispatcher() : this([]) { }
+
+    /// <param name="appTools">The app's own tools, offered through <c>list_app_tools</c> and <c>call_app_tool</c>.</param>
+    public RequestDispatcher(IEnumerable<AppTools.IAppTool> appTools)
     {
+        var tools = appTools.ToDictionary(t => t.Name, StringComparer.Ordinal);
+        Register(new ListAppToolsHandler(tools));
+        Register(new CallAppToolHandler(tools));
+
         // Connection
         Register(new PingHandler());
         Register(new ListWindowsHandler());

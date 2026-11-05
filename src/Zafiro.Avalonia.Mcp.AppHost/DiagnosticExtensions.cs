@@ -27,7 +27,7 @@ public static class DiagnosticExtensions
                 }
 
                 var transport = CreateTransport(options.Transport);
-                _server = new DiagnosticServer(transport);
+                _server = new DiagnosticServer(transport, options.Tools);
                 _server.Start();
             }
 

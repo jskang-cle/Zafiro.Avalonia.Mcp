@@ -44,11 +44,14 @@ internal static class AppConnectionExtensions
         this AppConnection conn,
         string method,
         object? parameters,
-        Func<JsonElement, IReadOnlyList<ContentBlock>> onSuccess)
+        Func<JsonElement, IReadOnlyList<ContentBlock>> onSuccess,
+        TimeSpan? timeout = null)
     {
         try
         {
-            var result = await conn.SendAsync(method, parameters);
+            var result = timeout is { } t
+                ? await conn.SendAsync(method, parameters, t)
+                : await conn.SendAsync(method, parameters);
             if (result is null)
                 return [new TextContentBlock { Text = "No result" }];
             return onSuccess(result.Value);

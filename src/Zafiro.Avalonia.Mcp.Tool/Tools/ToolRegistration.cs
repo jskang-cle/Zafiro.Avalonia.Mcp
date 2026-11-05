@@ -21,6 +21,7 @@ internal static class ToolRegistration
         typeof(EventTools),
         typeof(ResourceTools),
         typeof(InstructionTools),
+        typeof(AppTools),
     ];
 
     public static IMcpServerBuilder WithRegisteredTools(this IMcpServerBuilder builder)
@@ -39,5 +40,6 @@ internal static class ToolRegistration
             .WithTools<CaptureTools>()
             .WithTools<EventTools>()
             .WithTools<ResourceTools>()
-            .WithTools<InstructionTools>();
+            .WithTools<InstructionTools>()
+            .WithTools<AppTools>();
 }
